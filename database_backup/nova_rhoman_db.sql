@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3307
--- Tiempo de generación: 13-07-2026 a las 15:47:44
+-- Tiempo de generación: 14-07-2026 a las 21:43:15
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -46,11 +46,11 @@ CREATE TABLE `banners` (
 --
 
 INSERT INTO `banners` (`id`, `titulo`, `subtitulo`, `ruta_imagen`, `ruta_imagen_mobile`, `libro_id`, `enlace_personalizado`, `orden`, `activo`, `created_at`, `updated_at`) VALUES
-(9, NULL, NULL, '1783966899_desktop_Gemini_Generated_Image_rjcnsqrjcnsqrjcn.jpg', NULL, 197, NULL, 0, 1, '2026-07-13 16:47:39', '2026-07-13 21:21:39'),
-(10, NULL, NULL, '1783950494_desktop_banner_trayectosinclusivos.jpg', NULL, 169, NULL, 1, 1, '2026-07-13 16:48:14', '2026-07-13 16:48:14'),
-(11, NULL, NULL, '1783950528_desktop_banner_dinoalmohada.jpg', NULL, 184, NULL, 2, 1, '2026-07-13 16:48:48', '2026-07-13 16:48:48'),
-(12, NULL, NULL, '1783950561_desktop_banner_lostresdeseos.jpg', NULL, 159, NULL, 3, 1, '2026-07-13 16:49:21', '2026-07-13 16:49:21'),
-(13, NULL, NULL, '1783950700_desktop_banner_docentes.jpg', NULL, NULL, '/catalogo?buscar=docentes+en+el+aula&tema=&material=', 4, 1, '2026-07-13 16:51:40', '2026-07-13 16:51:40');
+(9, NULL, NULL, '1784068757_desktop_somoscampeones.jpg', '1784069434_mobile_Gemini_Generated_Image_rjcnsqrjcnsqrjcn.jpg', 197, NULL, 0, 1, '2026-07-13 16:47:39', '2026-07-15 01:50:34'),
+(10, NULL, NULL, '1783950494_desktop_banner_trayectosinclusivos.jpg', '1784073083_mobile_Copilot_20260714_203117.png', 169, NULL, 1, 1, '2026-07-13 16:48:14', '2026-07-15 02:51:23'),
+(11, NULL, NULL, '1783950528_desktop_banner_dinoalmohada.jpg', '1784073094_mobile_Copilot_20260714_203950.png', 184, NULL, 2, 1, '2026-07-13 16:48:48', '2026-07-15 02:51:34'),
+(12, NULL, NULL, '1783950561_desktop_banner_lostresdeseos.jpg', '1784073105_mobile_Copilot_20260714_204256.png', 159, NULL, 3, 1, '2026-07-13 16:49:21', '2026-07-15 02:51:45'),
+(13, NULL, NULL, '1783950700_desktop_banner_docentes.jpg', '1784073116_mobile_Copilot_20260714_205004.png', NULL, '/catalogo?buscar=docentes+en+el+aula&tema=&material=', 4, 1, '2026-07-13 16:51:40', '2026-07-15 02:51:56');
 
 -- --------------------------------------------------------
 
@@ -1373,7 +1373,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('siliqrQ2veXN3IZ4Fy1OSKvRrHaxMwIbH3wZbdvB', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiRDUwaVBRWlBPVnZ2V25qOHJ2bWN2akhRdnJ1a3BTMHZLVDM0U05lcSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6NDQ6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9kZXN0YWNhZG9zL2RhdG9zIjtzOjU6InJvdXRlIjtzOjIyOiJhZG1pbi5kZXN0YWNhZG9zLmRhdG9zIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6Mjt9', 1783966903);
+('oUgEGkHyOFtLVZZGbJQxIzsv2m6CEr3JE7BYUqfU', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiYUNpbWRmYmlnNGpsaFB4ZzJmMkpKM3V6RzdiaUJQckJXeTRUalB6VyI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6NDQ6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9kZXN0YWNhZG9zL2RhdG9zIjtzOjU6InJvdXRlIjtzOjIyOiJhZG1pbi5kZXN0YWNhZG9zLmRhdG9zIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6Mjt9', 1784075971);
 
 -- --------------------------------------------------------
 
