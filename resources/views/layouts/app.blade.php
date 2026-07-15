@@ -203,7 +203,7 @@
                     <div class="mb-3">
                         <img src="{{ asset('storage/logos/logo.png') }}" class="footer-brand-logo" alt="Nova Rhoman">
                     </div>
-                    <p class="small text-white-50" style="max-width: 300px;">
+                    <p class="small text-white-50 text-center text-md-start mx-auto mx-md-0" style="max-width: 300px;">
                         Libros para Siempre. Diseñando materiales resistentes, interactivos y de alta calidad para perdurar en el tiempo.
                     </p>
                 </div>

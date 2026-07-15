@@ -14,6 +14,7 @@ class Banner extends Model
         'titulo', 
         'subtitulo', 
         'ruta_imagen', 
+        'ruta_imagen_mobile',
         'libro_id', 
         'enlace_personalizado',
         'orden', 

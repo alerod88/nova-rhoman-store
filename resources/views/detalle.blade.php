@@ -67,57 +67,58 @@
                 </div>
             </div>
 
-            <div class="col-md-7">
+            <!-- 🖥️ Se activa el Flexbox elástico solo de pantallas medianas (md) en adelante -->
+            <div class="col-12 col-lg-7 d-flex flex-column justify-content-md-between gap-3">
+                
+                <div>
+                    <div class="mb-2 user-select-none">
+                        @if(isset($libro->categorias))
+                            @foreach($libro->categorias as $cat)
+                                <span class="badge text-uppercase mb-1 me-1 text-white shadow-sm folleto-tag-categoria">
+                                    <i class="bi bi-tag-fill me-1 opacity-75"></i>{{ $cat->nombre }}
+                                </span>
+                            @endforeach
+                        @endif
 
-                <div class="mb-3 user-select-none">
-                    @if(isset($libro->categorias))
-                        @foreach($libro->categorias as $cat)
-                            <span class="badge text-uppercase mb-1 me-1 text-white shadow-sm folleto-tag-categoria">
-                                <i class="bi bi-tag-fill me-1 opacity-75"></i>{{ $cat->nombre }}
-                            </span>
-                        @endforeach
+                        @if(isset($libro->materiales))
+                            @foreach($libro->materiales as $mat)
+                                <span class="badge text-uppercase mb-1 me-1 text-primary shadow-sm folleto-tag-material">
+                                    <i class="bi bi-layers-fill me-1 opacity-75"></i>{{ $mat->nombre }}
+                                </span>
+                            @endforeach
+                        @endif
+                    </div>
+
+                    <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-2">
+                        <h1 id="folleto-titulo" class="fw-bold text-primary my-0" style="font-size: 2.1rem; line-height: 1.2;">
+                            {{ $libro->titulo }}
+                        </h1>
+                    </div>
+
+                    @if(!empty($libro->subtitulo))
+                        <h4 id="folleto-subtitulo" class="text-secondary fw-bold border-bottom pb-2 mb-2" style="font-size: 1.1rem;">
+                            {{ $libro->subtitulo }}
+                        </h4>
+                    @else
+                        <span id="folleto-subtitulo" style="display: none;"></span>
                     @endif
 
-                    @if(isset($libro->materiales))
-                        @foreach($libro->materiales as $mat)
-                            <span class="badge text-uppercase mb-1 me-1 text-primary shadow-sm folleto-tag-material">
-                                <i class="bi bi-layers-fill me-1 opacity-75"></i>{{ $mat->nombre }}
-                            </span>
-                        @endforeach
-                    @endif
+                    <p id="folleto-descripcion" class="text-muted mb-3 lead" style="font-size: 0.95rem; line-height: 1.5;">
+                        {!! nl2br(e($libro->descripcion)) !!}
+                    </p>
                 </div>
 
-                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-2">
-                    <h1 id="folleto-titulo" class="fw-bold text-primary my-0" style="font-size: 2.1rem; line-height: 1.2;">
-                        {{ $libro->titulo }}
-                    </h1>
-                </div>
-
-                {{-- 🌟 SI EL LIBRO TIENE SUBTÍTULO, LO MUESTRA; SI NO, DESAPARECE --}}
-                @if(!empty($libro->subtitulo))
-                    <h4 id="folleto-subtitulo" class="text-secondary fw-bold border-bottom pb-2" style="font-size: 1.1rem;">
-                        {{ $libro->subtitulo }}
-                    </h4>
-                @else
-                    {{-- Dejamos la etiqueta oculta y vacía para que el JS no tire error al buscar el ID --}}
-                    <span id="folleto-subtitulo" style="display: none;"></span>
-                @endif
-
-                <p id="folleto-descripcion" class="text-muted mb-4 lead" style="font-size: 0.95rem; line-height: 1.6;">
-                    {!! nl2br(e($libro->descripcion)) !!}
-                </p>
-
-                <div class="mb-4 p-4 rounded-4 border" style="background-color: #f8f9fa;">
-                    <h5 class="fw-bold text-dark mb-3" style="font-size: 1.1rem;">
+                <div class="mb-3 p-3 rounded-4 border" style="background-color: #f8f9fa;">
+                    <h5 class="fw-bold text-dark mb-2" style="font-size: 1rem;">
                         <i class="bi bi-info-circle-fill text-primary me-2"></i>Ficha Técnica
                     </h5>
-                    <div class="d-flex flex-column gap-2" id="folleto-especificaciones">
+                    <div class="d-flex flex-column gap-1.5" id="folleto-especificaciones">
                         @if(!empty($libro->caracteristicas))
                             @foreach($libro->caracteristicas as $clave => $valor)
                                 @if($clave !== 'Etiqueta')
-                                    <div class="d-flex justify-content-between align-items-center border-bottom pb-2 data-spec-row" data-clave="{{ $clave }}" data-valor="{{ $valor }}">
-                                        <span class="text-secondary fw-bold small">{{ $clave }}</span>
-                                        <span class="text-dark small text-end" style="max-width: 70%; text-align: right;">{{ $valor }}</span>
+                                    <div class="d-flex justify-content-between align-items-center border-bottom pb-1.5 data-spec-row" data-clave="{{ $clave }}" data-valor="{{ $valor }}">
+                                        <span class="text-secondary fw-bold small" style="font-size: 0.8rem;">{{ $clave }}</span>
+                                        <span class="text-dark small text-end" style="max-width: 70%; text-align: right; font-size: 0.85rem;">{{ $valor }}</span>
                                     </div>
                                 @endif
                             @endforeach
@@ -194,14 +195,14 @@
                     </div>
                 @endif
 
-                <div class="row g-3 mt-4 mb-4">
-                    <div class="col-sm-7">
-                        <a href="{{ route('contacto', ['libro' => $libro->titulo]) }}" class="btn btn-primary btn-lg fw-bold py-3 w-100 shadow-sm rounded-3 text-uppercase" style="font-size: 0.95rem; letter-spacing: 0.5px; background-color: #3182ce; border-color: #3182ce;">
+                <div class="row g-3 w-100 mt-4 mb-2">
+                    <div class="col-12 col-sm-7">
+                        <a href="{{ route('contacto', ['libro' => $libro->titulo]) }}" class="btn btn-primary btn-lg fw-bold py-3 w-100 shadow-sm rounded-3 text-uppercase" style="font-size: 0.9rem; letter-spacing: 0.5px; background-color: #3182ce; border-color: #3182ce;">
                             <i class="bi bi-envelope-fill me-2"></i>Consultar por este Libro
                         </a>
                     </div>
-                    <div class="col-sm-5">
-                        <button type="button" onclick="descargarFolletoA4()" class="btn btn-outline-success btn-lg fw-bold py-3 w-100 shadow-sm rounded-3 text-uppercase" style="font-size: 0.95rem; letter-spacing: 0.5px;">
+                    <div class="col-12 col-sm-5">
+                        <button type="button" onclick="descargarFolletoA4()" class="btn btn-outline-success btn-lg fw-bold py-3 w-100 shadow-sm rounded-3 text-uppercase" style="font-size: 0.9rem; letter-spacing: 0.5px;">
                             <i class="bi bi-cloud-arrow-down-fill me-2"></i>Descargar Folleto
                         </button>
                     </div>
