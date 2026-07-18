@@ -3,6 +3,7 @@
 @section('content')
 <div class="row g-4">
     
+    <!-- 📱 PANEL LATERAL (OFFCANVAS) PARA CELULARES -->
     <div class="offcanvas offcanvas-start d-md-none text-dark" tabindex="-1" id="offcanvasFiltros" aria-labelledby="offcanvasFiltrosLabel" style="background-color: #f8fafc; z-index: 1050;">
         <div class="offcanvas-header bg-white border-bottom shadow-sm">
             <h5 class="offcanvas-title fw-bold text-primary d-flex align-items-center" id="offcanvasFiltrosLabel">
@@ -12,35 +13,62 @@
         </div>
         <div class="offcanvas-body p-4">
             <form action="{{ route('catalogo') }}" method="GET" class="d-flex flex-column gap-3">
+                <!-- Buscador de texto Mobile -->
                 <div>
-                    <label class="form-label fw-bold text-secondary small text-uppercase mb-1" style="font-size: 0.75rem;"><small>¿Qué estás buscando?</small></label>
+                    <label class="form-label fw-bold text-secondary small text-uppercase mb-2" style="font-size: 0.75rem;"><small>¿Qué estás buscando?</small></label>
                     <div class="input-group">
                         <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-search"></i></span>
                         <input type="text" name="buscar" value="{{ request('buscar') }}" class="form-control bg-light border-start-0" placeholder="Título, palabra clave...">
                     </div>
                 </div>
-                <div>
-                    <label class="form-label fw-bold text-secondary small text-uppercase mb-1" style="font-size: 0.75rem;"><small>Por Tema / Colección</small></label>
-                    <select name="tema" class="form-select bg-light fw-semibold text-dark" style="font-size: 0.9rem;" onchange="this.form.submit()">
-                        <option value="">Todos los temas</option>
-                        @foreach($categorias as $cat)
-                            <option value="{{ $cat->slug }}" {{ request('tema') == $cat->slug ? 'selected' : '' }}>
-                                {{ $cat->nombre }} ({{ $cat->libros_count ?? $cat->libros->count() }})
-                            </option>
-                        @endforeach
-                    </select>
+
+                <hr class="text-muted opacity-25 my-1">
+
+                <!-- ACORDEÓN MOBILE -->
+                <div class="accordion accordion-flush custom-accordion-filtros" id="accordionFiltrosMobile">
+                    <!-- Categorías -->
+                    <div class="accordion-item bg-transparent">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button fw-bold text-dark px-0 bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTemaMobile" aria-expanded="true">
+                                Categorías
+                            </button>
+                        </h2>
+                        <div id="collapseTemaMobile" class="accordion-collapse collapse show">
+                            <div class="accordion-body px-0 pt-1 pb-3 d-flex flex-column gap-2 max-filter-height">
+                                <a href="{{ route('catalogo', array_merge(request()->except(['tema', 'page']))) }}" class="filter-link-all {{ !request('tema') ? 'fw-bold text-primary-custom' : 'text-muted' }}">
+                                    <i class="bi bi-chevron-right small opacity-50 me-1"></i> Ver todas
+                                </a>
+                                @foreach($categorias as $cat)
+                                    <a href="{{ route('catalogo', array_merge(request()->except(['page']), ['tema' => $cat->slug])) }}" class="filter-link {{ request('tema') == $cat->slug ? 'active fw-bold' : '' }}">
+                                        {{ $cat->nombre }} <span class="text-muted small">({{ $cat->libros_count ?? $cat->libros->count() }})</span>
+                                    </a>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Encuadernación / Formato -->
+                    <div class="accordion-item bg-transparent">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button fw-bold text-dark px-0 bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMaterialMobile" aria-expanded="true">
+                                Encuadernación / Formato
+                            </button>
+                        </h2>
+                        <div id="collapseMaterialMobile" class="accordion-collapse collapse show">
+                            <div class="accordion-body px-0 pt-1 pb-3 d-flex flex-column gap-2 max-filter-height">
+                                <a href="{{ route('catalogo', array_merge(request()->except(['material', 'page']))) }}" class="filter-link-all {{ !request('material') ? 'fw-bold text-primary-custom' : 'text-muted' }}">
+                                    <i class="bi bi-chevron-right small opacity-50 me-1"></i> Ver todos
+                                </a>
+                                @foreach($materiales as $mat)
+                                    <a href="{{ route('catalogo', array_merge(request()->except(['page']), ['material' => $mat->slug])) }}" class="filter-link {{ request('material') == $mat->slug ? 'active fw-bold' : '' }}">
+                                        {{ $mat->nombre }} <span class="text-muted small">({{ $mat->libros_count ?? $mat->libros->count() }})</span>
+                                    </a>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <label class="form-label fw-bold text-secondary small text-uppercase mb-1" style="font-size: 0.75rem;"><small>Por Material</small></label>
-                    <select name="material" class="form-select bg-light fw-semibold text-dark" style="font-size: 0.9rem;" onchange="this.form.submit()">
-                        <option value="">Todos los materiales</option>
-                        @foreach($materiales as $mat)
-                            <option value="{{ $mat->slug }}" {{ request('material') == $mat->slug ? 'selected' : '' }}>
-                                {{ $mat->nombre }} ({{ $mat->libros_count ?? $mat->libros->count() }})
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
+
                 <div class="d-flex gap-2 mt-2">
                     @if(request('buscar') || request('tema') || request('material'))
                         <a href="{{ route('catalogo') }}" class="btn btn-light border flex-grow-1 py-2 fw-bold small text-uppercase text-danger" style="font-size: 0.75rem;">Limpiar</a>
@@ -50,44 +78,73 @@
             </form>
         </div>
     </div>
-
+    
+    <!-- 🖥️ FILTROS ESCRITORIO (FIJOS A LA IZQUIERDA) -->
     <div class="col-md-3 d-none d-md-block">
         <div class="position-sticky" style="top: 90px; z-index: 10;">
             <div class="card border-0 shadow-sm p-4 bg-white rounded-4">
-                <h5 class="fw-bold text-dark mb-3 d-flex align-items-center" style="font-size: 1.15rem;">
+                <h5 class="fw-bold text-dark mb-4 d-flex align-items-center" style="font-size: 1.15rem;">
                     <i class="bi bi-sliders text-primary me-2" style="font-size: 1.25rem;"></i> Filtrar Resultados
                 </h5>
                 
                 <form action="{{ route('catalogo') }}" method="GET" class="d-flex flex-column gap-3">
+                    <!-- Buscador de texto -->
                     <div>
-                        <label class="form-label fw-bold text-secondary small text-uppercase mb-1" style="font-size: 0.75rem;"><small>¿Qué estás buscando?</small></label>
+                        <label class="form-label fw-bold text-secondary small text-uppercase mb-2" style="font-size: 0.75rem;"><small>¿Qué estás buscando?</small></label>
                         <div class="input-group">
                             <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-search"></i></span>
                             <input type="text" name="buscar" value="{{ request('buscar') }}" class="form-control bg-light border-start-0" placeholder="Título, palabra clave...">
                         </div>
                     </div>
-                    <div>
-                        <label class="form-label fw-bold text-secondary small text-uppercase mb-1" style="font-size: 0.75rem;"><small>Por Tema / Colección</small></label>
-                        <select name="tema" class="form-select bg-light fw-semibold text-dark" style="font-size: 0.9rem;" onchange="this.form.submit()">
-                            <option value="">Todos los temas</option>
-                            @foreach($categorias as $cat)
-                                <option value="{{ $cat->slug }}" {{ request('tema') == $cat->slug ? 'selected' : '' }}>
-                                    {{ $cat->nombre }} ({{ $cat->libros_count ?? $cat->libros->count() }})
-                                </option>
-                            @endforeach
-                        </select>
+
+                    <hr class="text-muted opacity-25 my-1">
+
+                    <!-- ACORDEÓN DESKTOP -->
+                    <div class="accordion accordion-flush custom-accordion-filtros" id="accordionFiltrosDesktop">
+                        
+                        <!-- Categorías -->
+                        <div class="accordion-item bg-transparent">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button fw-bold text-dark px-0 bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTemaDesktop" aria-expanded="true">
+                                    Categorías
+                                </button>
+                            </h2>
+                            <div id="collapseTemaDesktop" class="accordion-collapse collapse show">
+                                <div class="accordion-body px-0 pt-1 pb-3 d-flex flex-column gap-2 max-filter-height">
+                                    <a href="{{ route('catalogo', array_merge(request()->except(['tema', 'page']))) }}" class="filter-link-all {{ !request('tema') ? 'fw-bold text-primary-custom' : 'text-muted' }}">
+                                        <i class="bi bi-chevron-right small opacity-50 me-1"></i> Ver todas
+                                    </a>
+                                    @foreach($categorias as $cat)
+                                        <a href="{{ route('catalogo', array_merge(request()->except(['page']), ['tema' => $cat->slug])) }}" class="filter-link {{ request('tema') == $cat->slug ? 'active fw-bold' : '' }}">
+                                            {{ $cat->nombre }} <span class="text-muted small">({{ $cat->libros_count ?? $cat->libros->count() }})</span>
+                                        </a>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Encuadernación / Formato -->
+                        <div class="accordion-item bg-transparent">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button fw-bold text-dark px-0 bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMaterialDesktop" aria-expanded="true">
+                                    Encuadernación / Formato
+                                </button>
+                            </h2>
+                            <div id="collapseMaterialDesktop" class="accordion-collapse collapse show">
+                                <div class="accordion-body px-0 pt-1 pb-3 d-flex flex-column gap-2 max-filter-height">
+                                    <a href="{{ route('catalogo', array_merge(request()->except(['material', 'page']))) }}" class="filter-link-all {{ !request('material') ? 'fw-bold text-primary-custom' : 'text-muted' }}">
+                                        <i class="bi bi-chevron-right small opacity-50 me-1"></i> Ver todos
+                                    </a>
+                                    @foreach($materiales as $mat)
+                                        <a href="{{ route('catalogo', array_merge(request()->except(['page']), ['material' => $mat->slug])) }}" class="filter-link {{ request('material') == $mat->slug ? 'active fw-bold' : '' }}">
+                                            {{ $mat->nombre }} <span class="text-muted small">({{ $mat->libros_count ?? $mat->libros->count() }})</span>
+                                        </a>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <label class="form-label fw-bold text-secondary small text-uppercase mb-1" style="font-size: 0.75rem;"><small>Por Material</small></label>
-                        <select name="material" class="form-select bg-light fw-semibold text-dark" style="font-size: 0.9rem;" onchange="this.form.submit()">
-                            <option value="">Todos los materiales</option>
-                            @foreach($materiales as $mat)
-                                <option value="{{ $mat->slug }}" {{ request('material') == $mat->slug ? 'selected' : '' }}>
-                                    {{ $mat->nombre }} ({{ $mat->libros_count ?? $mat->libros->count() }})
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
+
                     <div class="d-flex gap-2 mt-2">
                         @if(request('buscar') || request('tema') || request('material'))
                             <a href="{{ route('catalogo') }}" class="btn btn-light border flex-grow-1 py-2 fw-bold small text-uppercase text-danger" style="font-size: 0.75rem;">Limpiar</a>
@@ -99,8 +156,8 @@
         </div>
     </div>
 
+    <!-- 📚 COLUMNA DERECHA: GRILLA DE LIBROS -->
     <div class="col-12 col-md-9">
-        
         <div class="d-block d-md-none mb-3">
             <button class="btn btn-primary w-100 py-2.5 fw-bold text-uppercase d-flex align-items-center justify-content-center gap-2 rounded-3 shadow-sm style-btn-filter-trigger" 
                     type="button" 
@@ -115,9 +172,9 @@
         <div class="bg-white p-4 rounded shadow-sm mb-4" style="border-radius: 1rem !important;">
             <h3 class="fw-bold text-primary text-uppercase mb-1" style="font-size: 1.3rem; letter-spacing: -0.3px;">
                 @if(request('tema'))
-                    {{ $categorias->firstWhere('slug', request('tema'))->nombre ?? 'Tema Seleccionado' }}
+                    {{ $categorias->firstWhere('slug', request('tema'))->nombre ?? 'Categoría Seleccionada' }}
                 @elseif(request('material'))
-                    {{ $materiales->firstWhere('slug', request('material'))->nombre ?? 'Material Seleccionado' }}
+                    {{ $materiales->firstWhere('slug', request('material'))->nombre ?? 'Formato Seleccionado' }}
                 @elseif(request('buscar'))
                     Resultados para: "{{ request('buscar') }}"
                 @else
@@ -131,7 +188,6 @@
             @foreach($libros as $libro)
                 <div class="col">
                     <div class="card h-100 producto-card shadow-sm border-0 bg-white rounded-3 overflow-hidden position-relative">
-                        
                         <div class="p-3 text-center bg-light position-relative" style="height: 200px; display: flex; align-items: center; justify-content: center;">
                             @if(!empty($libro->caracteristicas) && isset($libro->caracteristicas['Etiqueta']))
                                 @php 
@@ -160,7 +216,6 @@
                                 Ver Detalles
                             </a>
                         </div>
-
                     </div>
                 </div>
             @endforeach
@@ -179,6 +234,67 @@
     .style-btn-filter-trigger:hover { background-color: #2c5ebd; border-color: #2c5ebd; }
     .producto-card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
     .producto-card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,0.1) !important; }
+
+    /* Customización de Acordeón Estilo E-commerce */
+    .custom-accordion-filtros .accordion-item {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+    }
+    .custom-accordion-filtros .accordion-item:last-child {
+        border-bottom: none !important;
+    }
+    .custom-accordion-filtros .accordion-button {
+        font-size: 0.95rem;
+        color: #212529 !important;
+        box-shadow: none !important;
+    }
+    .custom-accordion-filtros .accordion-button:not(.collapsed) {
+        background-color: transparent !important;
+        color: #1b3d81 !important;
+    }
+    .custom-accordion-filtros .accordion-button::after {
+        background-size: 0.85rem;
+        transition: transform 0.2s ease-in-out;
+    }
+    /* Lista de opciones estilo Tiendanube */
+    .filter-link {
+        color: #4b5563;
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: color 0.2s ease;
+        display: block;
+        padding: 2px 0;
+    }
+    .filter-link:hover {
+        color: #1b3d81;
+    }
+    .filter-link.active {
+        color: #1b3d81 !important;
+    }
+
+    /* Limitar altura si la lista de temas se hace muy larga */
+.max-filter-height {
+    max-height: none; /* Quitamos el límite rígido */
+    overflow-y: visible; /* Sacamos la barra de scroll */
+    padding-right: 0px;
+}
+    /* Scrollbar sutil */
+    .max-filter-height::-webkit-scrollbar { width: 4px; }
+    .max-filter-height::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 4px; }
+    
+    .filter-link-all {
+        text-decoration: none;
+        font-size: 0.88rem;
+        padding-bottom: 4px;
+        border-bottom: 1px dashed rgba(0,0,0,0.05);
+        transition: color 0.2s ease;
+        display: block;
+    }
+    .filter-link-all:hover {
+        color: #1b3d81 !important;
+    }
+    .text-primary-custom {
+        color: #1b3d81 !important;
+    }
 </style>
 
 <script>
@@ -187,7 +303,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const parametroBuscar = urlParams.get('buscar');
 
     const inputsBuscar = document.querySelectorAll('input[name="buscar"]');
-    const selectsFiltros = document.querySelectorAll('select[name="tema"], select[name="material"]');
 
     if (parametroBuscar) {
         inputsBuscar.forEach(input => {
@@ -203,12 +318,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 e.preventDefault();
                 this.form.submit();
             }
-        });
-    });
-
-    selectsFiltros.forEach(select => {
-        select.addEventListener('change', function() {
-            this.form.submit();
         });
     });
 });

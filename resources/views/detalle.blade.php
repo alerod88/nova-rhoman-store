@@ -720,8 +720,22 @@ function descargarFolletoA4() {
                 };
                 imgQR.onerror = function () { detonarDescarga(canvas, tituloText); };
             } else { 
-                ctx.fillStyle = '#64748b'; ctx.font = 'italic 13px ' + FONT_FAMILY; 
-                ctx.fillText('Material exclusivo para distribución mayorista y canales de preventa institucional de Editorial Nova Rhoman.', 50, yQR + 30); 
+                // 🎨 Reemplazamos por el texto definitivo legal y de despegue comercial
+                const textoLegal = 'Ficha técnica de uso libre y carácter estrictamente informativo. Las imágenes, especificaciones, encuadernación y componentes de la obra se presentan a modo ilustrativo y pueden sufrir modificaciones o cambios sin previo aviso.';
+                
+                ctx.fillStyle = '#64748b'; // Mantenemos el color gris suave para el pie
+                ctx.font = 'italic 11px ' + FONT_FAMILY; 
+                
+                // Convertimos la frase en un arreglo de líneas ajustadas a un ancho máximo de 700px
+                const lineasLegales = ajustarTextoCanvas(ctx, textoLegal, 700); 
+                
+                // Dibujamos cada línea aplicando un salto vertical de 16 píxeles
+                let yPosLegal = yQR + 30; 
+                lineasLegales.forEach((linea) => { 
+                    ctx.fillText(linea, 50, yPosLegal); 
+                    yPosLegal += 16; 
+                }); 
+                
                 detonarDescarga(canvas, tituloText); 
             }
         }
