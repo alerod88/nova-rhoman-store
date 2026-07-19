@@ -815,5 +815,54 @@ function descargarFolletoA4() {
 .text-truncate-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .producto-card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
 .producto-card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,0.08) !important; }
+/* 🛠️ ARREGLO EXCLUSIVO PARA TUS BOTONES DE NAVEGACIÓN REALES */
+.btn-lightbox-nav {
+    position: absolute !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    background-color: #1b3d81 !important; /* Tu azul institucional */
+    color: #ffffff !important;
+    border: none !important;
+    width: 46px !important;
+    height: 46px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 1.2rem !important;
+    border-radius: 50% !important;
+    transition: all 0.2s ease-in-out !important;
+    z-index: 1080 !important; /* Supera por completo la caja blanca de la foto */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important;
+}
+
+/* Forzar que floten por encima de los bordes laterales de la imagen */
+.btn-lightbox-nav.btn-anterior {
+    left: 20px !important;
+}
+.btn-lightbox-nav.btn-siguiente {
+    right: 20px !important;
+}
+
+/* Efecto hover profesional */
+.btn-lightbox-nav:hover {
+    background-color: #2c5ebd !important;
+    transform: translateY(-50%) scale(1.1) !important;
+    color: #ffffff !important;
+}
+
+/* Ajuste específico para celulares (responsive) */
+@media (max-width: 576px) {
+    .btn-lightbox-nav {
+        width: 38px !important;
+        height: 38px !important;
+        font-size: 1rem !important;
+    }
+    .btn-lightbox-nav.btn-anterior {
+        left: 10px !important;
+    }
+    .btn-lightbox-nav.btn-siguiente {
+        right: 10px !important;
+    }
+}
 </style>
 @endsection
